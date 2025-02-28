@@ -1,7 +1,10 @@
 const express = require("express");
+const { checkAuth } = require("../../middlewares/checkAuth");
 const car = require("../../controllers/car");
 
 const router = express.Router();
+
+router.use(checkAuth);
 
 router.post("/", car.create);
 router.get("/", car.list);
