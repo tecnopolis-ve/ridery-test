@@ -3,7 +3,7 @@ const { generateRandPassword } = require("../utils/utils");
 const userRepository = require("../repositories/user");
 const { CustomValidationError } = require("../errors/appErrors");
 
-async function signup(payload) {
+async function create(payload) {
     try {
         const { name, lastName } = payload;
         const password = generateRandPassword(14);
@@ -18,12 +18,12 @@ async function signup(payload) {
         const newUser = await userRepository.create(userData);
 
         if (!newUser) {
-            throw new CustomValidationError("User registration failed");
+            throw new CustomValidationError("User creation failed");
         }
 
         return {
             success: true,
-            message: "User successfully registered",
+            message: "User successfully created",
         };
     } catch (error) {
         console.error(error);
@@ -32,5 +32,5 @@ async function signup(payload) {
 }
 
 module.exports = {
-    signup,
+    create,
 };

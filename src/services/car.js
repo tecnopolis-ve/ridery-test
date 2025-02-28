@@ -2,7 +2,7 @@ const { assignFleet } = require("../utils/assignFleet");
 const carRepository = require("../repositories/car");
 const { NotFoundError } = require("../errors/appErrors");
 
-async function createCar({ brand, model, year }) {
+async function create({ brand, model, year }) {
     try {
         const fleet = assignFleet(brand, model, year);
         const created = await carRepository.create({
@@ -22,7 +22,7 @@ async function createCar({ brand, model, year }) {
     }
 }
 
-async function listCars({ page = 1, limit = 10, sort = "-createdAt" }) {
+async function list({ page = 1, limit = 10, sort = "-createdAt" }) {
     try {
         page = parseInt(page);
         limit = parseInt(limit);
@@ -39,7 +39,7 @@ async function listCars({ page = 1, limit = 10, sort = "-createdAt" }) {
     }
 }
 
-async function listCarsByFleet({
+async function listByFleet({
     flota,
     page = 1,
     limit = 10,
@@ -64,7 +64,7 @@ async function listCarsByFleet({
     }
 }
 
-async function listCarsByBrand({
+async function listByBrand({
     marca,
     page = 1,
     limit = 10,
@@ -89,7 +89,7 @@ async function listCarsByBrand({
     }
 }
 
-async function getCarById({ id }) {
+async function get({ id }) {
     try {
         const found = await carRepository.getById(id);
         if (!found) {
@@ -106,7 +106,7 @@ async function getCarById({ id }) {
     }
 }
 
-async function updateCar({ id, brand, model, year, ...rest }) {
+async function update({ id, brand, model, year, ...rest }) {
     try {
         if (brand && model && year) {
             rest.fleet = assignFleet(brand, model, year);
@@ -133,7 +133,7 @@ async function updateCar({ id, brand, model, year, ...rest }) {
     }
 }
 
-async function removeCar({ id }) {
+async function remove({ id }) {
     try {
         const removed = await carRepository.deleteById(id);
 
@@ -152,11 +152,11 @@ async function removeCar({ id }) {
 }
 
 module.exports = {
-    createCar,
-    listCars,
-    listCarsByFleet,
-    listCarsByBrand,
-    getCarById,
-    updateCar,
-    removeCar,
+    create,
+    list,
+    listByFleet,
+    listByBrand,
+    get,
+    update,
+    remove,
 };

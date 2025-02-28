@@ -5,12 +5,13 @@ const cors = require("cors");
 const config = require("./src/config/config.js");
 const apiRoutes = require("./src/routes/routes.js");
 
-mongoose.connect(config.mongohost)
+mongoose.set("strictQuery", false);
+mongoose
+    .connect(config.mongohost)
+    .then(() => console.log("Database connected"))
+    .catch((err) => console.error(err));
 
-const allowedOrigins = [
-    "http://localhost:3000",
-    process.env.FRONTEND_URL
-];
+const allowedOrigins = ["http://localhost:3000", process.env.FRONTEND_URL];
 
 const PORT = config.port || 3000;
 const app = express();
@@ -29,7 +30,7 @@ app.use(
             }
         },
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
-        credentials: true
+        credentials: true,
     })
 );
 
@@ -46,7 +47,9 @@ app.use((req, res) => {
 
 const startServer = (port) => {
     app.listen(port, "0.0.0.0", () => {
-        console.log(`Server listening on http://localhost:${port} in '${config.env}' environment`);
+        console.log(
+            `Server listening on http://localhost:${port} in '${config.env}' environment`
+        );
     }).on("error", (err) => {
         console.error(err);
     });
