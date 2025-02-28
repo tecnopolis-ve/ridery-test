@@ -1,8 +1,8 @@
 const User = require("../models/User");
 
 const userRepository = {
-    list(filter = {}) {
-        return User.find(filter);
+    list(filter = {}, options = {}) {
+        return User.find(filter, null, options);
     },
     getById(id) {
         return User.findById(id);

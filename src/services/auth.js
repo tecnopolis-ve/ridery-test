@@ -39,6 +39,7 @@ async function login({ phone, password }) {
         const token = jwt.sign(tokenPayload, jwtKey, {
             expiresIn: tokenExpires,
         });
+
         const refreshToken = jwt.sign(tokenPayload, jwtRefreshKey, {
             expiresIn: refreshTokenExtendedExpires,
         });
