@@ -41,6 +41,16 @@ app.get("/", (req, res) => {
 
 app.use("/api", apiRoutes);
 
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500;
+
+    res.status(statusCode).json({
+        success: false,
+        name: err.name,
+        message: err.message,
+    });
+});
+
 app.use((req, res) => {
     res.status(404).json({ success: false, message: "Not Found" });
 });

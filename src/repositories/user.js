@@ -4,6 +4,12 @@ const userRepository = {
     list(filter = {}, options = {}) {
         return User.find(filter, null, options);
     },
+    get(filter) {
+        if (!filter || Object.keys(filter).length === 0) {
+            return Promise.resolve(null);
+        }
+        return User.findOne(filter);
+    },
     getById(id) {
         return User.findById(id);
     },

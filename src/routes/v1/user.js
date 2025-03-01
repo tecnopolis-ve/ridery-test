@@ -4,7 +4,7 @@ const user = require('../../controllers/user');
 
 const router = express.Router();
 
-// router.use(checkAuth);
+router.use(checkAuth);
 
 router.post("/", user.create);
 router.get("/", user.list);

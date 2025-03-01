@@ -5,7 +5,7 @@ const { CustomValidationError, NotFoundError } = require("../errors/appErrors");
 
 async function create(payload) {
     try {
-        const password = generateRandPassword(14);
+        const { password } = payload;
         const saltedPassword = await bcrypt.hash(password, 10);
         const userData = { ...payload, password: saltedPassword };
         const newUser = await userRepository.create(userData);

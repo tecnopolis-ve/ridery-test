@@ -16,17 +16,19 @@ const {
     refreshTokenExtendedExpires,
 } = config;
 
-async function login({ phone, password }) {
+async function login({ email, password }) {
     try {
         const user = await userRepository
-            .get({ phone, active: true })
-            .select("+password");
+            .get({ email });
 
         if (!user) {
             throw new NotFoundError("User not found or inactive");
         }
 
+        console.log(password);
+
         const validPassword = await bcrypt.compare(password, user.password);
+
         if (!validPassword) {
             throw new UnauthorizedError("Incorrect password");
         }
