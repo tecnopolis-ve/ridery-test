@@ -9,8 +9,8 @@ const meRoutes = require("./me");
 
 router.use("/", publicRoutes);
 router.use("/user", userRoutes);
-router.use("/car", carRoutes);
-router.use("/auth", authRoutes);
+router.use("/vehiculos", carRoutes);
+router.use("/login", authRoutes);
 router.use("/me", meRoutes);
 
 module.exports = router;

@@ -12,7 +12,7 @@ const fleetRules = [
     },
     {
         brand: "toyota",
-        models: ["hilux", "fortunner", "prado"],
+        models: ["hilux", "fortuner", "prado"],
         minYear: 2015,
         fleetName: "Pickup / Camioneta",
     },

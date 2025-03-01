@@ -23,8 +23,9 @@ async function list(req, res, next) {
 async function listByFleet(req, res, next) {
     try {
         const { page, limit, sort } = req.query;
+        const { flota } = req.params;
         const result = await carService.listByFleet({
-            flota: req.params.flota,
+            flota,
             page,
             limit,
             sort,
@@ -38,8 +39,9 @@ async function listByFleet(req, res, next) {
 async function listByBrand(req, res, next) {
     try {
         const { page, limit, sort } = req.query;
+        const { marca } = req.params;
         const result = await carService.listByBrand({
-            marca: req.params.marca,
+            marca,
             page,
             limit,
             sort,

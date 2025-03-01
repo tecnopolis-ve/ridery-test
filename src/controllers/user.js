@@ -11,7 +11,7 @@ async function create(req, res, next) {
 
 async function list(req, res, next) {
     try {
-        const { page = 1, limit = 10, sort = "-createdAt" } = req.query;
+        const { page, limit, sort } = req.query;
         const result = await userService.list({ page, limit, sort });
         return res.json(result);
     } catch (error) {
