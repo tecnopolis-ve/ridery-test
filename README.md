@@ -17,8 +17,8 @@ Este backend está **dockerizado**, lo que significa que puede levantarse rápid
 
 ### 1. Clonar el repositorio
 ```sh
-git clone https://github.com/tuusuario/tu-repo.git
-cd tu-repo
+git clone https://github.com/tecnopolis-ve/ridery-test
+cd ridery-test
 ```
 
 ### 2. Levantar el contenedor con docker-compose
@@ -34,7 +34,7 @@ Puede probarse con cURL o el navegador:
 curl http://localhost:3000
 ```
 
-## Endpoints Disponibles
+## Endpoints disponibles
 
 ### Autenticación
 | Método | Endpoint      | Descripción |
@@ -62,12 +62,12 @@ curl http://localhost:3000
 | `GET`  | `/user/:id`            | Obtiene un usuario por ID |
 | `PATCH` | `/user/:id`           | Actualiza parcialmente un usuario |
 
-### Public (Health Check)
+### Health Check
 | Método | Endpoint      | Descripción |
 |--------|-------------|-------------|
 | `GET`  | `/`         | Verifica si el servicio está activo |
 
-## Variables de Entorno
+## Variables de entorno
 
 Si se ejecuta la API sin Docker, es necesario un archivo `.env` con:
 
