@@ -24,8 +24,8 @@ async function create({ brand, model, year }) {
 
 async function list({ page = 1, limit = 10, sort = "-createdAt" }) {
     try {
-        page = parseInt(page);
-        limit = parseInt(limit);
+        page = Math.max(1, parseInt(page) || 1);
+        limit = Math.max(1, Math.min(100, parseInt(limit) || 10));
         const skip = (page - 1) * limit;
         const items = await carRepository.list({}, { skip, limit, sort });
 
@@ -46,8 +46,12 @@ async function listByFleet({
     sort = "-createdAt",
 }) {
     try {
-        page = parseInt(page);
-        limit = parseInt(limit);
+        if (!flota) {
+            throw new Error("Flota is required");
+        }
+
+        page = Math.max(1, parseInt(page) || 1);
+        limit = Math.max(1, Math.min(100, parseInt(limit) || 10));
         const skip = (page - 1) * limit;
         const items = await carRepository.list(
             { fleet: flota },
@@ -71,8 +75,12 @@ async function listByBrand({
     sort = "-createdAt",
 }) {
     try {
-        page = parseInt(page);
-        limit = parseInt(limit);
+        if (!marca) {
+            throw new Error("Marca is required");
+        }
+
+        page = Math.max(1, parseInt(page) || 1);
+        limit = Math.max(1, Math.min(100, parseInt(limit) || 10));
         const skip = (page - 1) * limit;
         const items = await carRepository.list(
             { brand: marca },
@@ -91,7 +99,12 @@ async function listByBrand({
 
 async function get({ id }) {
     try {
+        if (!id) {
+            throw new Error("ID is required");
+        }
+
         const found = await carRepository.getById(id);
+
         if (!found) {
             throw new NotFoundError("Car not found");
         }
@@ -108,6 +121,10 @@ async function get({ id }) {
 
 async function update({ id, brand, model, year, ...rest }) {
     try {
+        if (!id) {
+            throw new Error("ID is required");
+        }
+
         if (brand && model && year) {
             rest.fleet = assignFleet(brand, model, year);
         }
@@ -135,6 +152,10 @@ async function update({ id, brand, model, year, ...rest }) {
 
 async function remove({ id }) {
     try {
+        if (!id) {
+            throw new Error("ID is required");
+        }
+
         const removed = await carRepository.deleteById(id);
 
         if (!removed) {

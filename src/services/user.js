@@ -27,8 +27,8 @@ async function create(payload) {
 
 async function list({ page = 1, limit = 10, sort = "-createdAt" }) {
     try {
-        page = parseInt(page);
-        limit = parseInt(limit);
+        page = Math.max(1, parseInt(page) || 1);
+        limit = Math.max(1, Math.min(100, parseInt(limit) || 10));
         const skip = (page - 1) * limit;
         const users = await userRepository.list({}, { skip, limit, sort });
 
@@ -44,6 +44,10 @@ async function list({ page = 1, limit = 10, sort = "-createdAt" }) {
 
 async function get({ id }) {
     try {
+        if (!id) {
+            throw new Error("ID is required");
+        }
+
         const user = await userRepository.get({ _id: id });
 
         if (!user) {
@@ -62,6 +66,10 @@ async function get({ id }) {
 
 async function update({ id, ...payload }) {
     try {
+        if (!id) {
+            throw new Error("ID is required");
+        }
+
         const updatedUser = await userRepository.update({ _id: id }, payload);
 
         if (!updatedUser) {
