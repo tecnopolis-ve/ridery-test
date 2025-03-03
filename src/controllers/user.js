@@ -3,7 +3,7 @@ const userService = require("../services/user");
 async function create(req, res, next) {
     try {
         const result = await userService.create(req.body);
-        return res.json(result);
+        return res.status(201).json(result);
     } catch (error) {
         next(error);
     }

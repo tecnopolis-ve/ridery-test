@@ -4,7 +4,7 @@ async function create(req, res, next) {
     try {
         const { brand, model, year } = req.body;
         const result = await carService.create({ brand, model, year });
-        return res.json(result);
+        return res.status(201).json(result);
     } catch (error) {
         next(error);
     }
