@@ -1,15 +1,13 @@
-const { assignFleet } = require("../utils/assignFleet");
+// services/car.js
 const carRepository = require("../repositories/car");
 const { NotFoundError } = require("../errors/appErrors");
 
 async function create({ brand, model, year }) {
     try {
-        const fleet = assignFleet(brand, model, year);
         const created = await carRepository.create({
             brand,
             model,
-            year,
-            fleet,
+            year
         });
 
         return {
@@ -125,15 +123,14 @@ async function update({ id, brand, model, year, ...rest }) {
             throw new Error("ID is required");
         }
 
-        if (brand && model && year) {
-            rest.fleet = assignFleet(brand, model, year);
-        }
-
         const updated = await carRepository.updateById(id, {
             brand,
             model,
             year,
             ...rest,
+        }, {
+            runValidators: true,
+            context: 'query'
         });
 
         if (!updated) {

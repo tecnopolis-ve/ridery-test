@@ -70,7 +70,10 @@ async function update({ id, ...payload }) {
             throw new Error("ID is required");
         }
 
-        const updatedUser = await userRepository.update({ _id: id }, payload);
+        const updatedUser = await userRepository.updateById(id, payload, {
+            runValidators: true,
+            context: 'query'
+        });
 
         if (!updatedUser) {
             throw new NotFoundError("User not found");

@@ -25,8 +25,6 @@ async function login({ email, password }) {
             throw new NotFoundError("User not found or inactive");
         }
 
-        console.log(password);
-
         const validPassword = await bcrypt.compare(password, user.password);
 
         if (!validPassword) {

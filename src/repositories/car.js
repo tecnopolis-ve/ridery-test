@@ -16,8 +16,8 @@ const carRepository = {
     create(data) {
         return Car.create(data);
     },
-    updateById(id, data) {
-        return Car.findByIdAndUpdate(id, data, { new: true });
+    updateById(id, data, options = {}) {
+        return Car.findByIdAndUpdate(id, data, { new: true, ...options });
     },
     deleteById(id) {
         return Car.findByIdAndDelete(id);

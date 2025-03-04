@@ -16,8 +16,8 @@ const userRepository = {
     create(data) {
         return User.create(data);
     },
-    updateById(id, data) {
-        return User.findByIdAndUpdate(id, data, { new: true });
+    updateById(id, data, options = {}) {
+        return User.findByIdAndUpdate(id, data, { new: true, ...options });
     },
     deleteById(id) {
         return User.findByIdAndDelete(id);
