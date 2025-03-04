@@ -18,15 +18,15 @@ const carSchema = new mongoose.Schema(
         },
         fleet: {
             type: String,
-            required: true,
             enum: ["Espectacular", "Pickup / Camioneta", "Económico"],
+            default: "Económico"
         },
     },
     { timestamps: true }
 );
 
 carSchema.pre('save', function (next) {
-    if (this.isNew || this.isModified('brand') || this.isModified('model') || this.isModified('year')) {
+    if (this.brand && this.model && this.year) {
         this.fleet = assignFleet(this.brand, this.model, this.year);
     }
     next();
@@ -34,25 +34,28 @@ carSchema.pre('save', function (next) {
 
 carSchema.pre('findOneAndUpdate', async function (next) {
     const update = this.getUpdate();
+    const updateData = update.$set || update;
 
-    if (update.brand !== undefined || update.model !== undefined || update.year !== undefined) {
-        try {
+    try {
+        if (updateData.brand !== undefined || updateData.model !== undefined || updateData.year !== undefined) {
             const doc = await this.model.findOne(this.getQuery());
-
             if (doc) {
-                const brand = update.brand || doc.brand;
-                const model = update.model || doc.model;
-                const year = update.year || doc.year;
+                const brand = updateData.brand !== undefined ? updateData.brand : doc.brand;
+                const model = updateData.model !== undefined ? updateData.model : doc.model;
+                const year = updateData.year !== undefined ? updateData.year : doc.year;
+                const calculatedFleet = assignFleet(brand, model, year);
 
-                update.fleet = assignFleet(brand, model, year);
+                if (update.$set) {
+                    update.$set.fleet = calculatedFleet;
+                } else {
+                    update.fleet = calculatedFleet;
+                }
             }
-            next();
-        } catch (error) {
-            next(error);
         }
-    } else {
-        next();
+    } catch (error) {
+        console.error("Error al calcular fleet:", error);
     }
+    next();
 });
 
 module.exports = mongoose.model("Car", carSchema);
