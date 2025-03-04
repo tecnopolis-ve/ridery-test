@@ -67,16 +67,6 @@ curl http://localhost:3000
 |--------|-------------|-------------|
 | `GET`  | `/`         | Verifica si el servicio está activo |
 
-## Variables de entorno
-
-Si se ejecuta la API sin Docker, es necesario un archivo `.env` con:
-
-```ini
-PORT=3000
-MONGO_URI=mongodb://localhost:27017/carfleet
-JWT_SECRET=supersecreto
-```
-
 ## Colección de Postman
 
 Una colección de **Postman** con ejemplos de requests se encuentra disponible.  
