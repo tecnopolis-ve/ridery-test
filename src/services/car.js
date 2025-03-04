@@ -51,9 +51,11 @@ async function listByFleet({
         page = Math.max(1, parseInt(page) || 1);
         limit = Math.max(1, Math.min(100, parseInt(limit) || 10));
         const skip = (page - 1) * limit;
+        const safeSearch = flota.replace(/[^a-zA-Z0-9]/g, '');
+    
         const items = await carRepository.list(
-            { fleet: flota },
-            { skip, limit, sort }
+          { fleet: { $regex: safeSearch, $options: 'i' } },
+          { skip, limit, sort }
         );
 
         return {
@@ -80,8 +82,10 @@ async function listByBrand({
         page = Math.max(1, parseInt(page) || 1);
         limit = Math.max(1, Math.min(100, parseInt(limit) || 10));
         const skip = (page - 1) * limit;
+        const safeSearch = marca.replace(/[^a-zA-Z0-9]/g, '');
+
         const items = await carRepository.list(
-            { brand: marca },
+            { brand: { $regex: safeSearch, $options: 'i' } },
             { skip, limit, sort }
         );
 
